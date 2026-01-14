@@ -8,6 +8,54 @@ Este projeto demonstra a implementação de **login nativo com Auth0** em React 
 |---------------------------------|--------------------------------|
 |![Simulator-Screen-Recording-iPhone-17-Pro-Max-2026-01-14-at-14 44 47](https://github.com/user-attachments/assets/b675688f-1876-436c-b075-bf0f71b0dc05)|<img width="1320" height="2868" alt="Simulator Screenshot - iPhone 17 Pro Max - 2026-01-14 at 14 53 47" src="https://github.com/user-attachments/assets/478db7ea-e83e-4b76-b19c-356c30e059f5" width="400" />|
 
+
+
+## Comunicação com Auth0
+
+https://github.com/user-attachments/assets/78924d13-7aca-45cc-a321-283c34e6d186
+
+## Início do método de login
+
+```ts
+async loginWithEmailPassword(
+    email: string,
+    password: string,
+  ): Promise<Auth0Credentials> {
+    log('Attempting native login', { email });​
+```
+
+## Log
+<img width="1280" height="176" alt="6e963195-d11d-4f38-a400-e759e79e1a44" src="https://github.com/user-attachments/assets/211dd7f4-3979-42e7-a55f-65abe41cee70" />
+
+## API Response Auth0
+<img width="1171" height="583" alt="fae4efcb-6ced-4660-b48c-3dc81bb9c475" src="https://github.com/user-attachments/assets/4831313a-b5dc-4361-8a54-dba2413ede3a" />
+
+##### Retornos do access_token, refresh_token, id_token, scope, expires_in e token_type
+
+---
+
+## Dentro do try do método loginWithEmailPassword
+
+```ts
+log('Native login successful!', {
+  accessToken: credentials.accessToken?.substring(0, 20) + '...',
+  expiresAt: new Date(credentials.expiresAt).toISOString(),
+});
+```
+
+## Log
+<img width="1280" height="184" alt="6e583d9c-48c2-451d-b9a8-b0524c0757b0" src="https://github.com/user-attachments/assets/9d6786df-3a7e-48e3-9c27-79ca2fd08871" />
+
+## Dentro do try do método getUserInfologin
+
+```ts
+const userInfo = await auth0.auth.userInfo({ token });
+
+log('User info received', userInfo);
+```
+## Log
+<img width="1171" height="268" alt="797d7fb0-ff11-49f9-92d8-f66fcea6d25f" src="https://github.com/user-attachments/assets/0c988a38-dfa5-4805-99a4-f6d12bd27f5a" />
+
 ## 🚀 Recursos
 
 - ✅ Login Nativo (Email/Senha) usando Resource Owner Password Grant

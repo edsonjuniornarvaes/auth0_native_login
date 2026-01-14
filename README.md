@@ -1,97 +1,197 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Auth0 Native Login - React Native
 
-# Getting Started
+Este projeto demonstra a implementação de **login nativo com Auth0** em React Native, usando módulos nativos personalizados para Android e iOS.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## 🚀 Recursos
 
-## Step 1: Start Metro
+- ✅ Login Nativo (Email/Senha) usando Resource Owner Password Grant
+- ✅ Web Auth (Login via navegador)
+- ✅ Módulos nativos personalizados para Android e iOS
+- ✅ Integração com Reactotron para logs detalhados
+- ✅ TypeScript com tipos completos
+- ✅ UI moderna e responsiva
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## 📋 Pré-requisitos
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- Node.js 20+
+- React Native CLI
+- Xcode (para iOS)
+- Android Studio (para Android)
+- Uma conta Auth0 com uma aplicação configurada
 
-```sh
-# Using npm
-npm start
+## ⚙️ Configuração do Auth0
 
-# OR using Yarn
-yarn start
+### 1. Criar Aplicação no Auth0
+
+1. Acesse [Auth0 Dashboard](https://manage.auth0.com)
+2. Crie uma nova aplicação do tipo **Native**
+3. Anote o **Client ID** e **Domain**
+
+### 2. Habilitar Resource Owner Password Grant
+
+Para usar o login nativo (email/senha), você precisa habilitar o ROPG:
+
+1. Vá em **Applications > APIs > Auth0 Management API**
+2. Na aba **Machine to Machine Applications**, autorize sua aplicação
+3. Vá em **Settings > Advanced Settings > Grant Types**
+4. Habilite **Password** grant type
+
+### 3. Configurar Callback URLs
+
+No Auth0 Dashboard, configure as URLs de callback:
+
+**Android:**
+```
+auth0://YOUR_AUTH0_DOMAIN/android/com.auth0_native_login/callback
 ```
 
-## Step 2: Build and run your app
+**iOS:**
+```
+com.auth0_native_login://YOUR_AUTH0_DOMAIN/ios/com.auth0_native_login/callback
+```
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## 📱 Configuração do Projeto
 
 ### Android
 
-```sh
-# Using npm
-npm run android
+Edite o arquivo `android/app/src/main/res/values/strings.xml`:
 
-# OR using Yarn
-yarn android
+```xml
+<resources>
+    <string name="app_name">auth0_native_login</string>
+    
+    <!-- Auth0 Configuration -->
+    <string name="com_auth0_client_id">SEU_CLIENT_ID</string>
+    <string name="com_auth0_domain">SEU_DOMAIN.auth0.com</string>
+    <string name="com_auth0_scheme">auth0</string>
+</resources>
 ```
 
 ### iOS
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+Edite o arquivo `ios/auth0_native_login/Auth0.plist`:
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Domain</key>
+    <string>SEU_DOMAIN.auth0.com</string>
+    <key>ClientId</key>
+    <string>SEU_CLIENT_ID</string>
+</dict>
+</plist>
 ```
 
-Then, and every time you update your native dependencies, run:
+## 🛠️ Instalação
 
-```sh
-bundle exec pod install
+```bash
+# Instalar dependências
+npm install
+
+# iOS: Instalar Pods
+cd ios && pod install && cd ..
+
+# Android: Build inicial (opcional)
+cd android && ./gradlew clean && cd ..
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+## 🏃 Executando
 
-```sh
-# Using npm
+```bash
+# Iniciar Metro Bundler
+npm start
+
+# Executar no Android
+npm run android
+
+# Executar no iOS
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## 🔍 Reactotron
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+Para visualizar os logs do Auth0:
 
-## Step 3: Modify your app
+1. Baixe o [Reactotron](https://github.com/infinitered/reactotron/releases)
+2. Inicie o Reactotron antes de executar o app
+3. Os logs aparecerão automaticamente com detalhes das chamadas Auth0
 
-Now that you have successfully run the app, let's make changes!
+### Logs Disponíveis
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+- Login attempts (nativo e web)
+- Token decoding
+- User profile fetching
+- Session management
+- Errors detalhados
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## 📁 Estrutura do Projeto
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+```
+src/
+├── config/
+│   └── ReactotronConfig.ts    # Configuração do Reactotron
+├── screens/
+│   ├── LoginScreen.tsx        # Tela de login
+│   └── ProfileScreen.tsx      # Tela de perfil
+├── services/
+│   └── Auth0Service.ts        # Serviço Auth0 com bridge nativa
+├── types/
+│   └── Auth0Module.d.ts       # Tipos TypeScript
+└── index.ts                   # Exports
 
-## Congratulations! :tada:
+android/app/src/main/java/com/auth0_native_login/
+├── Auth0Module.kt             # Módulo nativo Android
+├── Auth0Package.kt            # Package React Native
+├── MainActivity.kt
+└── MainApplication.kt
 
-You've successfully run and modified your React Native App. :partying_face:
+ios/auth0_native_login/
+├── Auth0Module.swift          # Módulo nativo iOS
+├── Auth0Module.m              # Bridge Objective-C
+├── Auth0.plist                # Configuração Auth0
+└── ...
+```
 
-### Now what?
+## 🔐 API do Serviço Auth0
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+```typescript
+import auth0Service from './src/services/Auth0Service';
 
-# Troubleshooting
+// Login nativo com email/senha
+const credentials = await auth0Service.loginWithEmailPassword(email, password);
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+// Login via Web Auth
+const credentials = await auth0Service.loginWithWebAuth();
 
-# Learn More
+// Logout
+await auth0Service.logout();
 
-To learn more about React Native, take a look at the following resources:
+// Obter informações do usuário
+const profile = await auth0Service.getUserInfo(accessToken);
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+// Verificar credenciais
+const hasCredentials = await auth0Service.hasValidCredentials();
+
+// Obter credenciais cacheadas
+const cached = await auth0Service.getCachedCredentials();
+```
+
+## ⚠️ Importante
+
+O **Resource Owner Password Grant (ROPG)** é considerado legacy pelo Auth0 e não é recomendado para aplicações novas. Use apenas se:
+
+- Você confia totalmente no aplicativo
+- Precisa de uma experiência de login nativa sem browser
+- Entende os riscos de segurança envolvidos
+
+Para a maioria dos casos, use **Web Auth** que oferece:
+- Maior segurança
+- Suporte a MFA
+- SSO entre aplicações
+- Compliance com OAuth 2.0/OIDC
+
+## 📄 Licença
+
+MIT

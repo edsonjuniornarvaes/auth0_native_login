@@ -2,6 +2,12 @@
 
 Este projeto demonstra a implementação de **login nativo com Auth0** em React Native, usando módulos nativos personalizados para Android e iOS.
 
+##  ✅ Login nativo funcionando no iOS.
+
+|Vídeo do processo de autenticação| Tela com dados pós autenticação|
+|---------------------------------|--------------------------------|
+|![Simulator-Screen-Recording-iPhone-17-Pro-Max-2026-01-14-at-14 44 47](https://github.com/user-attachments/assets/b675688f-1876-436c-b075-bf0f71b0dc05)|<img width="1320" height="2868" alt="Simulator Screenshot - iPhone 17 Pro Max - 2026-01-14 at 14 53 47" src="https://github.com/user-attachments/assets/478db7ea-e83e-4b76-b19c-356c30e059f5" width="400" />|
+
 ## 🚀 Recursos
 
 - ✅ Login Nativo (Email/Senha) usando Resource Owner Password Grant
